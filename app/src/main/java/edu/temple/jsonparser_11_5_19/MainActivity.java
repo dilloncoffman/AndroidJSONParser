@@ -1,5 +1,6 @@
 package edu.temple.jsonparser_11_5_19;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     ImageView dogPicture;
     TextView textView;
+    String code;
 
     Handler dogHandler = new Handler(new Handler.Callback() {
         @Override
@@ -49,6 +51,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // When app is launched from an implicit intent
+        Intent intent = getIntent();
+        if (Intent.ACTION_VIEW.equals(intent.getAction())) { // app launched from implicit intent
+            // would get code for the comic if using xkcd.com example
+            code = intent.getData().getPath();
+        }
+
         dogPicture = findViewById(R.id.imageView);
         textView = findViewById(R.id.textView);
 
@@ -58,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 URL url = null;
                 try {
-                    url = new URL("https://dog.ceo/api/breeds/image/random");
+                    url = code == null ? new URL("https://dog.ceo/api/breeds/image/random") :  new URL("https://dog.ceo/api/breed/" + code + "/images"); // use endpoint, see https://dog.ceo/dog-api/documentation/breed
                     BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
                     StringBuilder builder = new StringBuilder(); // StringBuilder, keep adding on bits of a string
                     String response;

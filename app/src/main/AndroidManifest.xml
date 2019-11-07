@@ -17,6 +17,16 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+<!--                More data attributes you add, more specific it becomes-->
+                <data android:host="xkcd.com" android:scheme="https" />
+<!--                Goal of intent-filter is capture implicit intents, need DEFAULT -->
+                <category android:name="android.intent.category.DEFAULT" />
+<!--                BROWSABLE is a category for letting you respond to links in apps or on a website -->
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
         </activity>
     </application>
 
